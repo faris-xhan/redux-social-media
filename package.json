@@ -1,5 +1,6 @@
 {
-  "name": "redux-essentials-example",
+  "name": "butterfly",
+  "description": "butterfly is a little social media app. cloned from redux essential example.",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
