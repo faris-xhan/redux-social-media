@@ -11,8 +11,16 @@ const { reducer: postsReducer, actions } = createSlice({
     postAdded: (state, action) => {
       state.unshift(action.payload);
     },
+    postUpdated: (state, action) => {
+      const { id, title, content } = action.payload;
+      const post = state.find((post) => post.id === id);
+      if (post) {
+        post.title = title;
+        post.content = content;
+      }
+    },
   },
 });
 
-export const { postAdded } = actions;
+export const { postAdded, postUpdated } = actions;
 export default postsReducer;
