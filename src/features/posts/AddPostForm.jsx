@@ -22,12 +22,7 @@ const AddPostForm = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (formData.title && formData.content) {
-      dispatch(
-        postAdded({
-          id: nanoid(),
-          ...formData,
-        })
-      );
+      dispatch(postAdded(formData));
       setFormData(defaultFormData);
     }
   };
