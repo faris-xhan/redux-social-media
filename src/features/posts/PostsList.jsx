@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const PostsList = (props) => {
   const posts = useSelector((state) => state.posts);
@@ -6,6 +7,9 @@ const PostsList = (props) => {
     <article key={post.id} className="post-excerpt">
       <h1>{post.title.substring(0, 100)}</h1>
       <p>{post.content}</p>
+      <Link to={`/posts/${post.id}`} className="button muted-button">
+        View Post
+      </Link>
     </article>
   ));
 
