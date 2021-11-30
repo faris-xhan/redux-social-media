@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { selectAllUsers } from '../users/usersSlice';
-import { postAdded } from './postsSlice';
+import { addNewPost } from './postsSlice';
 
 const defaultFormData = {
   title: '',
   content: '',
-  author: '',
+  user: '',
 };
 
 const AddPostForm = (props) => {
@@ -15,6 +15,7 @@ const AddPostForm = (props) => {
 
   const users = useSelector(selectAllUsers);
   const [formData, setFormData] = useState(defaultFormData);
+  const [addRequestStatus, setAddRequestsStatus] = useState('idle');
 
   const handleInputChange = (event) => {
     setFormData({
@@ -22,16 +23,27 @@ const AddPostForm = (props) => {
       [event.target.name]: event.target.value,
     });
   };
-  const handleSubmit = (event) => {
+
+  const canSave =
+    Boolean(formData.user) &&
+    Boolean(formData.title) &&
+    Boolean(formData.content) &&
+    addRequestStatus === 'idle';
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (formData.title && formData.content) {
-      dispatch(postAdded(formData));
-      setFormData(defaultFormData);
+    if (canSave) {
+      try {
+        setAddRequestsStatus('pending');
+        await dispatch(addNewPost(formData)).unwrap();
+        setFormData(defaultFormData);
+      } catch (error) {
+        console.log('Failed to save the post', error);
+      } finally {
+        setAddRequestsStatus('idle');
+      }
     }
   };
-
-  const canSave = Boolean(formData.title) && Boolean(formData.content);
-
   const usersOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
       {user.name}
@@ -60,8 +72,8 @@ const AddPostForm = (props) => {
         <label htmlFor="postAuthor">Author:</label>
         <select
           id="postAuthor"
-          name="author"
-          value={formData.author}
+          name="user"
+          value={formData.user}
           onChange={handleInputChange}
         >
           <option value=""></option>

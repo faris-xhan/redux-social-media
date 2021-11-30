@@ -8,7 +8,7 @@ import { postUpdated, selectPostById } from './postsSlice';
 const defaultFormData = {
   title: '',
   content: '',
-  author: '',
+  user: '',
 };
 export const EditPostForm = ({ match }) => {
   const { postId } = match.params;
@@ -66,8 +66,8 @@ export const EditPostForm = ({ match }) => {
         <label htmlFor="postAuthor">Author:</label>
         <select
           id="postAuthor"
-          name="author"
-          value={formData.author}
+          name="user"
+          value={formData.user}
           onChange={handleInputChange}
         >
           <option value=""></option>

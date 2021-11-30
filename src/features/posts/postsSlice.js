@@ -11,6 +11,14 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return response.data;
 });
 
+export const addNewPost = createAsyncThunk(
+  'posts/addNewPosts',
+  async (data) => {
+    const response = await client.post('/fakeApi/posts', data);
+    return response.data;
+  }
+);
+
 const { reducer: postsReducer, actions } = createSlice({
   name: 'posts',
   initialState,
@@ -65,6 +73,10 @@ const { reducer: postsReducer, actions } = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        state.data.push(action.payload);
       });
   },
 });
