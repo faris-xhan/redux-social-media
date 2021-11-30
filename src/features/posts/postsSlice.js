@@ -14,7 +14,7 @@ const { reducer: postsReducer, actions } = createSlice({
       },
       prepare: (data) => {
         const payload = { id: nanoid(), ...data };
-        return payload;
+        return { payload };
       },
     },
     postUpdated: (state, action) => {
