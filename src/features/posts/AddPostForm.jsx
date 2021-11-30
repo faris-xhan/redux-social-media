@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { selectAllUsers } from '../users/usersSlice';
 import { postAdded } from './postsSlice';
 
 const defaultFormData = {
@@ -12,7 +13,7 @@ const defaultFormData = {
 const AddPostForm = (props) => {
   const dispatch = useDispatch();
 
-  const users = useSelector((state) => state.users);
+  const users = useSelector(selectAllUsers);
   const [formData, setFormData] = useState(defaultFormData);
 
   const handleInputChange = (event) => {

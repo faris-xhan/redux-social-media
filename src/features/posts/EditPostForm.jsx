@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { selectAllUsers } from '../users/usersSlice';
 
 import { postUpdated, selectPostById } from './postsSlice';
 
@@ -12,7 +13,7 @@ const defaultFormData = {
 export const EditPostForm = ({ match }) => {
   const { postId } = match.params;
 
-  const users = useSelector((state) => state.users);
+  const users = useSelector(selectAllUsers);
   const post = useSelector((state) => selectPostById(state, postId));
 
   const [formData, setFormData] = useState(post);
