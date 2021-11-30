@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PostAuthor } from './PostAuthor';
+import { selectAllPosts } from './postsSlice';
 import { ReactionButtons } from './ReactButtons';
 import { TimeAgo } from './TimeAgo';
 
 const PostsList = (props) => {
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector(selectAllPosts);
   const redenredPosts = posts.map((post) => (
     <article key={post.id} className="post-excerpt">
       <h1>{post.title.substring(0, 100)}</h1>
