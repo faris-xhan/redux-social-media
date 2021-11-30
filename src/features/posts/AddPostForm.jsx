@@ -1,23 +1,26 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { postAdded } from './postsSlice';
 
 const defaultFormData = {
   title: '',
   content: '',
+  author: '',
 };
 
 const AddPostForm = (props) => {
   const dispatch = useDispatch();
 
+  const users = useSelector((state) => state.users);
   const [formData, setFormData] = useState(defaultFormData);
+
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (formData.title && formData.content) {
@@ -25,6 +28,14 @@ const AddPostForm = (props) => {
       setFormData(defaultFormData);
     }
   };
+
+  const canSave = Boolean(formData.title) && Boolean(formData.content);
+
+  const usersOptions = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ));
   return (
     <section>
       <h2>Add a New Post</h2>
@@ -45,7 +56,19 @@ const AddPostForm = (props) => {
           value={formData.content}
           onChange={handleInputChange}
         />
-        <button type="submit">Save Post</button>
+        <label htmlFor="postAuthor">Author:</label>
+        <select
+          id="postAuthor"
+          name="author"
+          value={formData.author}
+          onChange={handleInputChange}
+        >
+          <option value=""></option>
+          {usersOptions}
+        </select>
+        <button type="submit" disabled={!canSave}>
+          Save Post
+        </button>
       </form>
     </section>
   );
